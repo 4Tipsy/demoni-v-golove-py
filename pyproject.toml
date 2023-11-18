@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "demoni-v-golove-py"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "demoni_v_golove_py"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.0"
+discord-py = {extras = ["voice"], version = "^2.3.2"}
+youtube-dl = "^2021.12.17"
+lavalink = "^4.0.6"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
