@@ -13,6 +13,9 @@ import lavalink
 from discord.ext import commands
 from lavalink.filters import LowPass
 
+from dotenv import load_dotenv
+import os
+
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 
 
@@ -34,7 +37,7 @@ class LavalinkVoiceClient(discord.VoiceClient):
             self.client.lavalink = lavalink.Client(client.user.id)
             self.client.lavalink.add_node(
                 'localhost',
-                2333,
+                int(os.environ.get("LAVALINK_PORT")),
                 'youshallnotpass',
                 'us',
                 'default-node'
