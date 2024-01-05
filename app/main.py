@@ -21,8 +21,6 @@ load_dotenv()
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
-PREFIX = os.environ.get("PREFIX")
-
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -101,8 +99,10 @@ async def zxc(ctx):
 async def help(ctx):
 
     await ctx.channel.send("`play`/`p` - ну вот сам блять подумай")
+    await ctx.channel.send("`repeat`/`r` - r {число повторений} {ссылка/запрос/та хуйня, что и в `play` крч}")
     await ctx.channel.send("`skip`/`sk` - аналогично")
     await ctx.channel.send("`list`/`ls` - посмотреть, что за хуйня ща в очереди")
+    await ctx.channel.send("`now` - посмотреть, че ща за трек")
     await ctx.channel.send("`disconnect`/`dc` - выходит из войса и чистит очередь")
     await ctx.channel.send("`lowpass`/`lp` - шло вместе с лавалинком, я сам хз крч (лучш не трогать)")
     await ctx.channel.send("`help` - список команд (указаны без префиксов, думаю догадаетесь)")

@@ -137,7 +137,7 @@ class Music(commands.Cog):
 
         # These are commands that require the bot to join a voicechannel (i.e. initiating playback).
         # Commands such as volume/skip etc don't require the bot to be in a voicechannel so don't need listing here.
-        should_connect = ctx.command.name in ('play',)
+        should_connect = ctx.command.name in ('play', 'repeat')
 
         if not ctx.author.voice or not ctx.author.voice.channel:
             # Our cog_command_error handler catches this and sends it to the voicechannel.
@@ -172,6 +172,9 @@ class Music(commands.Cog):
 
     @commands.command(aliases=['p'])
     async def play(self, ctx, *, query: str):
+        await self._play(ctx, query)
+
+    async def _play(self, ctx, query: str, be_silent=False):
         """ Searches and plays a song from a given query. """
         # Get the player for this guild from cache.
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
@@ -189,9 +192,12 @@ class Music(commands.Cog):
         # Results could be None if Lavalink returns an invalid response (non-JSON/non-200 (OK)).
         # Alternatively, results.tracks could be an empty array if the query yielded no tracks.
         if not results or not results.tracks:
-            return await ctx.send('Nothing found!')
+            if not be_silent:
+                return await ctx.send('Nothing found!')
+            else:
+                return
 
-        embed = discord.Embed(color=discord.Color.blurple())
+        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60))
 
         # Valid loadTypes are:
         #   TRACK_LOADED    - single video/direct URL)
@@ -215,12 +221,42 @@ class Music(commands.Cog):
 
             player.add(requester=ctx.author.id, track=track)
 
-        await ctx.send(embed=embed)
+        if not be_silent:
+            await ctx.send(embed=embed)
 
         # We don't want to call .play() if the player is playing as that will effectively skip
         # the current track.
         if not player.is_playing:
             await player.play()
+
+
+
+
+    @commands.command(aliases=['r'])
+    async def repeat(self, ctx, *, query: str):
+
+        [how_many, query_] = query.split(' ', 1)
+        await ctx.send('Engaging... wait...')
+
+        if not how_many.isdigit():
+            await ctx.channel.send(f'**"{how_many}"**?????? Хуесос! Число введи блять!')
+
+        if (int(how_many) < 1) or (int(how_many) > 15):
+            await ctx.channel.send(f'0 > твое число повторений >= 15')
+
+        else:
+            for i in range(int(how_many)):
+                if i == int(how_many)-1: # aka last one
+                    await self._play(ctx, query_, be_silent=False)
+                else:
+                    await self._play(ctx, query_, be_silent=True)
+            embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60))
+            embed.title = f'(repeated {how_many} times)'
+            await ctx.send(embed=embed)
+
+
+
+
 
     @commands.command(aliases=['sk'])
     async def skip(self, ctx):
@@ -242,7 +278,7 @@ class Music(commands.Cog):
         # extreme values from being entered. This will enforce a maximum of 100.
         strength = min(100, strength)
 
-        embed = discord.Embed(color=discord.Color.blurple(), title='Low Pass Filter')
+        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Low Pass Filter')
 
         # A strength of 0 effectively means this filter won't function, so we can disable it.
         if strength == 0.0:
@@ -282,7 +318,7 @@ class Music(commands.Cog):
         await player.stop()
         # Disconnect from the voice channel.
         await ctx.voice_client.disconnect(force=True)
-        await ctx.send('*⃣ | Disconnected.')
+        await ctx.send('Потеряна связь с реальностью')
 
 
     @commands.command(aliases=['ls'])
@@ -291,13 +327,35 @@ class Music(commands.Cog):
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
         
         current_track = player.current
+        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Queue')
+        embed_desc = ""
 
+
+        # filling embed
         if current_track:
-            await ctx.channel.send(f"*[{1}/{len(player.queue) + 1}]* {current_track.title}")
+
+            embed_desc += f"**[{1}/{len(player.queue) + 1}]** {current_track.title}\n"
 
         for idx, track in enumerate(player.queue):
+            embed_desc += f"**[{idx+2}/{len(player.queue) + 1}]** {track.title}\n"
 
-            await ctx.channel.send(f"*[{idx+2}/{len(player.queue) + 1}]* {track.title}")
+            if idx == 50:
+                embed_desc += "**...**"
+                break
+
+
+        embed.description = embed_desc
+        await ctx.send(embed=embed)
+
+
+    @commands.command()
+    async def now(self, ctx):
+        """Check current track"""
+        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Now playing')
+        player = self.bot.lavalink.player_manager.get(ctx.guild.id)
+        current_track = player.current
+        embed.description = f"**[now]** {current_track.title}"
+        await ctx.send(embed=embed)
 
 
 
