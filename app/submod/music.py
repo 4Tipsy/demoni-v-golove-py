@@ -197,6 +197,7 @@ class Music(commands.Cog):
             if not be_silent:
                 embed.description = 'Nothing found!'
                 await ctx.send(embed=embed)
+                return
             else:
                 return
 

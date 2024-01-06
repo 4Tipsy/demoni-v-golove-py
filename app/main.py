@@ -98,17 +98,17 @@ async def zxc(ctx):
 @client.command()
 async def help(ctx):
 
-    embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Queue')
+    embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Commands')
     embed_desc = ""
-    embed_desc += "`play`/`p` - ну вот сам блять подумай"
-    embed_desc += "`repeat`/`r` - r {число повторений} {ссылка/запрос/та хуйня, что и в `play` крч}"
-    embed_desc += "`skip`/`sk` - аналогично"
-    embed_desc += "`list`/`ls` - посмотреть, что за хуйня ща в очереди"
-    embed_desc += "`now` - посмотреть, че ща за трек"
-    embed_desc += "`disconnect`/`dc` - выходит из войса и чистит очередь"
-    embed_desc += "`lowpass`/`lp` - шло вместе с лавалинком, я сам хз крч (лучш не трогать)"
-    embed_desc += "`help` - список команд (указаны без префиксов, думаю догадаетесь)"
-    embed_desc += "`кто` - узнать свой гендер"
+    embed_desc += "`play`/`p` - ну вот сам блять подумай\n"
+    embed_desc += "`repeat`/`r` - r {число повторений} {ссылка/запрос/та хуйня, что и в `play` крч}\n"
+    embed_desc += "`skip`/`sk` - аналогично\n"
+    embed_desc += "`list`/`ls` - посмотреть, что за хуйня ща в очереди\n"
+    embed_desc += "`now` - посмотреть, че ща за трек\n"
+    embed_desc += "`disconnect`/`dc` - выходит из войса и чистит очередь\n"
+    embed_desc += "`lowpass`/`lp` - шло вместе с лавалинком, я сам хз крч (лучш не трогать)\n"
+    embed_desc += "`help` - список команд (указаны без префиксов, думаю догадаетесь)\n"
+    embed_desc += "`кто` - узнать свой гендер\n"
     embed.description = embed_desc
     await ctx.send(embed=embed)
 
