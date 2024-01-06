@@ -188,16 +188,17 @@ class Music(commands.Cog):
 
         # Get the results for the query from Lavalink.
         results = await player.node.get_tracks(query)
+        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60))
+
 
         # Results could be None if Lavalink returns an invalid response (non-JSON/non-200 (OK)).
         # Alternatively, results.tracks could be an empty array if the query yielded no tracks.
         if not results or not results.tracks:
             if not be_silent:
-                return await ctx.send('Nothing found!')
+                embed.description = 'Nothing found!'
+                await ctx.send(embed=embed)
             else:
                 return
-
-        embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60))
 
         # Valid loadTypes are:
         #   TRACK_LOADED    - single video/direct URL)
@@ -243,6 +244,7 @@ class Music(commands.Cog):
 
         if (int(how_many) < 1) or (int(how_many) > 15):
             await ctx.channel.send(f'0 > твое число повторений >= 15')
+            await ctx.channel.send(f'"{how_many}"???????')
 
         else:
             for i in range(int(how_many)):
@@ -269,7 +271,7 @@ class Music(commands.Cog):
         """ Sets the strength of the low pass filter. """
 
         if True:
-            ctx.send("Deprecated")
+            await ctx.send("Deprecated")
             return
 
         # Get the player for this guild from cache.
