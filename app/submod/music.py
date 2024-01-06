@@ -267,6 +267,11 @@ class Music(commands.Cog):
     @commands.command(aliases=['lp'])
     async def lowpass(self, ctx, strength: float):
         """ Sets the strength of the low pass filter. """
+
+        if True:
+            ctx.send("Deprecated")
+            return
+
         # Get the player for this guild from cache.
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
 
