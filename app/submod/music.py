@@ -195,7 +195,7 @@ class Music(commands.Cog):
         # Alternatively, results.tracks could be an empty array if the query yielded no tracks.
         if not results or not results.tracks:
             if not be_silent:
-                embed.description = 'Nothing found!'
+                embed.description = 'Nothing found! **(если должно было, напишите в личку, я на скорую руку фиксил)**'
                 await ctx.send(embed=embed)
                 return
             else:
@@ -327,6 +327,8 @@ class Music(commands.Cog):
         # Disconnect from the voice channel.
         await ctx.voice_client.disconnect(force=True)
         await ctx.send('Потеряна связь с реальностью')
+
+
 
 
     @commands.command(aliases=['ls'])

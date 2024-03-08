@@ -10,7 +10,6 @@ packages = []
 python = "^3.10"
 python-dotenv = "^1.0.0"
 discord-py = {extras = ["voice"], version = "^2.3.2"}
-youtube-dl = "^2021.12.17"
 lavalink = "^4.0.6"
 
 

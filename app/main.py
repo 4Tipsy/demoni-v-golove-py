@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-import youtube_dl
 from dotenv import load_dotenv
 from time import sleep
 
@@ -65,6 +64,10 @@ async def bot_command_2(ctx):
     await ctx.reply("все должны зиговать")
 
 
+@client.command()
+async def me(ctx):
+    await ctx.reply(f"u -> {ctx.author.name} - {ctx.author.id}")
+
 
 
 @client.command()
@@ -101,6 +104,7 @@ async def help(ctx):
     embed = discord.Embed(color=discord.Color.from_rgb(242, 0, 60), title='Commands')
     embed_desc = ""
     embed_desc += "`play`/`p` - ну вот сам блять подумай\n"
+    embed_desc += "`vkp` - (не работает)\n"
     embed_desc += "`repeat`/`r` - r {число повторений} {ссылка/запрос/та хуйня, что и в `play` крч}\n"
     embed_desc += "`skip`/`sk` - аналогично\n"
     embed_desc += "`list`/`ls` - посмотреть, что за хуйня ща в очереди\n"
